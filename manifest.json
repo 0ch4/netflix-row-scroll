@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Netflix 1行スクロール",
+  "version": "1.0.0",
+  "description": "Netflixのブラウズ画面で、マウスホイール1ノッチごとにちょうど1行分スナップスクロールします。",
+  "content_scripts": [
+    {
+      "matches": ["*://*.netflix.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ]
+}
