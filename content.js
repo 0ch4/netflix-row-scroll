@@ -31,13 +31,15 @@
       test: (h) => h.includes("youtube.com"),
       mode: "union",
       selectors: [
-        "ytd-rich-item-renderer",     // 通常動画（グリッド、複数/行）
-        "ytd-rich-section-renderer",  // Shorts棚など（全幅、1/行）
-        "ytd-rich-grid-row",          // 旧グリッドの行ラッパー
-        "ytd-video-renderer",         // 検索結果（縦リスト）
-        "ytd-grid-video-renderer",    // 旧チャンネルグリッド
-        "ytd-reel-shelf-renderer",    // Shortsシェルフ（登録/検索）
-        "ytd-shelf-renderer",         // 各種シェルフ
+        "ytd-rich-item-renderer",       // 通常動画（グリッド、複数/行）
+        "ytd-rich-section-renderer",    // Shorts棚など（全幅、1/行）
+        "ytd-rich-grid-row",            // 旧グリッドの行ラッパー
+        "ytd-video-renderer",           // 検索結果（縦リスト）
+        "ytd-grid-video-renderer",      // 旧チャンネルグリッド
+        "ytd-reel-shelf-renderer",      // Shortsシェルフ（登録/検索）
+        "ytd-shelf-renderer",           // 各種シェルフ
+        "ytd-compact-video-renderer",   // 再生ページ右側のおすすめ（縦一列）
+        "yt-lockup-view-model",         // 新レイアウトのおすすめ/プレイリスト項目
       ],
       // 横スクロールする棚(Shorts等)の内側にいる個別サムネは除外。棚そのものを1境界にする。
       exclude: (el) =>
@@ -52,7 +54,18 @@
         if (chips && chips.getClientRects().length) off += chips.offsetHeight;
         return off + 8;
       },
-      disabled: () => location.pathname.startsWith("/watch"),
+      disabled: () => {
+        // 再生ページは「通常表示（右に縦一列のおすすめ）」のときだけ有効。
+        // シアター/全画面ではページがスクロールしないのでオフにする。
+        if (location.pathname.startsWith("/watch")) {
+          const flexy = document.querySelector("ytd-watch-flexy");
+          const enlarged =
+            (flexy && (flexy.hasAttribute("theater") || flexy.hasAttribute("fullscreen"))) ||
+            document.fullscreenElement !== null;
+          return enlarged;
+        }
+        return false;
+      },
     },
   ];
 
