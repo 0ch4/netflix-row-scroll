@@ -9,7 +9,7 @@
     offset: "auto",  // 行の上端を画面のどこに合わせるか。"auto"=サイトごと自動 / 数値でpx指定
     epsilon: 2,      // 境界判定の許容誤差(px)
     cluster: 6,      // この差(px)以内のアイテム上端は「同じ行」とみなす
-    debug: true,     // true でコンソールに診断ログを出す（原因調査用。後で false に）
+    debug: false,    // true でコンソールに診断ログを出す（不具合調査用）
   };
 
   const log = (...a) => SETTINGS.debug && console.log("[1行スクロール]", ...a);
